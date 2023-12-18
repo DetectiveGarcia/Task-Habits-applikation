@@ -28,17 +28,25 @@ export default function Task() {
       completed: false,
     },
   ]);
-  const handleChecked = () => {
-    setIsChecked(!isChecked);
+  const handleChecked = (index) => {
+    if (setIsChecked(!isChecked)) {
+      // Create a copy of the toDo array
+      const updatedToDo = [...toDo];
+      // Update the completed status of the selected task
+      updatedToDo[index].completed = true;
+      // Update the state
+      setComplete(updatedToDo);
+    }
   };
-  const handleComplete = (index) => {
-    // Create a copy of the toDo array
-    const updatedToDo = [...toDo];
-    // Update the completed status of the selected task
-    updatedToDo[index].completed = true;
-    // Update the state
-    setComplete(updatedToDo);
-  };
+  console.log(handleChecked)
+//   const handleComplete = (index) => {
+//     // Create a copy of the toDo array
+//     const updatedToDo = [...toDo];
+//     // Update the completed status of the selected task
+//     updatedToDo[index].completed = true;
+//     // Update the state
+//     setComplete(updatedToDo);
+//   };
 
   const handleDelete = (index) => {
     const updatedToDo = [...toDo];
@@ -55,8 +63,8 @@ export default function Task() {
           return (
             <>
               <Todo
-                checked={handleChecked}
-                onComplete={() => handleComplete(i)}
+                checked={() =>handleChecked(i)}
+                // onComplete={() => handleComplete(i)}
                 todos={todos}
                 onDelete={() => handleDelete(i)}
               />
