@@ -29,7 +29,7 @@ export default function Task() {
     },
   ]);
   const handleChecked = (index) => {
-    if (setIsChecked(!isChecked)) {
+    if (!isChecked) {
       // Create a copy of the toDo array
       const updatedToDo = [...toDo];
       // Update the completed status of the selected task
@@ -39,20 +39,29 @@ export default function Task() {
     }
   };
   console.log(handleChecked)
-//   const handleComplete = (index) => {
-//     // Create a copy of the toDo array
-//     const updatedToDo = [...toDo];
-//     // Update the completed status of the selected task
-//     updatedToDo[index].completed = true;
-//     // Update the state
-//     setComplete(updatedToDo);
-//   };
+
 
   const handleDelete = (index) => {
     const updatedToDo = [...toDo];
     updatedToDo.splice(index, 1);
     setToDo(updatedToDo);
   };
+
+  const handleEdit = (index, newTitle) => {
+    const updatedToDo = [...toDo];
+    updatedToDo[index].title = newTitle;
+    setToDo(updatedToDo);
+
+
+  }
+
+  const handleEditDesc = (index, newDesc) => {
+    const updatedToDo = [...toDo];
+    updatedToDo[index].description = newDesc;
+    setToDo(updatedToDo);
+
+
+  }
 
   return (
     <div>
@@ -63,10 +72,13 @@ export default function Task() {
           return (
             <>
               <Todo
+                 key={i}
                 checked={() =>handleChecked(i)}
                 // onComplete={() => handleComplete(i)}
                 todos={todos}
                 onDelete={() => handleDelete(i)}
+                onEdit={(newTitle, )=> handleEdit(i, newTitle)}
+                onEditDesc={(newDesc) => handleEditDesc (i,newDesc)}
               />
             </>
           );
@@ -76,7 +88,7 @@ export default function Task() {
 
       <h2>Utförda ärender</h2>
       <ul>
-        {isChecked &&
+        {
           complete
             .filter((task) => task.completed)
             .map((completedTask, i) => <li key={i}>{completedTask.title}</li>)}
