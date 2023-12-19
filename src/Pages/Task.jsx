@@ -68,6 +68,8 @@ export default function Task() {
 
   const handleEditMin = (index, newMin) => {
     const updatedToDo = [...toDo];
+
+    console.log(updatedToDo[index], index, updatedToDo)
     updatedToDo[index].time_minutes = newMin;
     setToDo(updatedToDo)
   }
@@ -89,7 +91,7 @@ export default function Task() {
                 onEdit={(newTitle )=> handleEdit(i, newTitle)}
                 onEditDesc={(newDesc) => handleEditDesc (i,newDesc)}
                 onEditHours={(newHours) => handleEditHours(i, newHours)}
-                onEditMin={(newMin) => handleEditMin(newMin)}
+                onEditMin={(newMin) => handleEditMin(i, newMin)}
               />
             </>
           );
