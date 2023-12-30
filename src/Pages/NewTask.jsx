@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-export default function NewTask() {
+export default function NewTask({addTask}) {
+  const [boo, setBoo] = useState(false);
   const [newTask, setNewTask] = useState({
     title: "",
     description: "",
-    time: "",
+    time_hours: "",
+    time_minutes: "",
     type: "",
+    completed: false,
   });
 
   const [suggestedActivity, setSuggestedActivity] = useState("");
@@ -21,7 +25,7 @@ export default function NewTask() {
       }
     };
     fetchSuggestedActivity();
-  }, []);
+  }, [boo]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -36,6 +40,7 @@ export default function NewTask() {
       ...prevTask,
       title: suggestedActivity,
     }));
+    setBoo(!boo);
   };
 
   const handleSubmit = (e) => {
@@ -43,9 +48,14 @@ export default function NewTask() {
     console.log("New submit submitted", newTask);
   };
 
+  const handleAddTask = () => {
+    addTask(newTask);
+  }
   return (
     <div>
       <h1>Creating a new Task</h1>
+      <Link to="/tasks">Added Tasks</Link> <br />
+
       <form onSubmit={handleSubmit}>
         <label>
           Title:
@@ -72,8 +82,14 @@ export default function NewTask() {
           <br />
           <input
             type="text"
-            name="time"
-            value={newTask.time}
+            name="time_hours"
+            value={newTask.time_hours}
+            onChange={handleInputChange}
+          />
+           <input
+            type="text"
+            name="time_minutes"
+            value={newTask.time_minutes}
             onChange={handleInputChange}
           />
         </label>
@@ -83,7 +99,7 @@ export default function NewTask() {
           Get suggested Activities
         </button>
         <br />
-        <button type="submit">Create Task</button>
+        <button  type="submit" onClick={handleAddTask}>Add Task</button>
       </form>
     </div>
   );
