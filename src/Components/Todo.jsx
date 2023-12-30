@@ -38,11 +38,13 @@ export default function Todo(props) {
           value={editedDesc}
           onChange={(e) => setEditedDesc(e.target.value)}
         />
+        <label>Timme(ar): </label>
         <input 
           type="number" 
           value={editedHours} 
           onChange={(e) => setEditedHours(e.target.value)} 
           />
+          <label>Minuter: </label>
           <input 
             type="number" 
             value={editedMin} 
