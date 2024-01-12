@@ -14,14 +14,9 @@ export default function Task({
   handleClick,
 }) {
   const [sortOrder, setSortOrder] = useState("asc");
-  const [sortTime, setSortTime] = useState("asc");
 
   const toggleSortOrder = () => {
     setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
-  };
-
-  const toggleSortTime = () => {
-    setSortTime((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
   };
 
   const sortedToDos = [...filteredToDos].sort((a, b) => {
@@ -29,35 +24,14 @@ export default function Task({
     return sortOrder === "asc" ? compareResult : -compareResult;
   });
 
-  const sortedTimes = [...filteredToDos].sort((a, b) => {
-    const timeA = a.time.toLowerCase(); // Convert to lowercase for case-insensitive comparison
-    const timeB = b.time.toLowerCase();
-    const compareResult = timeA.localeCompare(timeB);
-    return sortTime === "asc" ? compareResult : -compareResult;
-  });
-
-
- 
-
-  // const sortedTimes = [...filteredToDos].sort((a, b) => {
-  //   const compareResult = a.time.localeCompare(b.time);
-  //   return sortTime === "asc" ? compareResult : -compareResult;
-  // });
-
   return (
     <div>
       <h1>Ärendet som skall utföras</h1>
       <Link to="/newtask"> Add Tasks</Link>
       <p>Filtrera by kategori: </p>
 
-      {/* <button onClick={toggleSortOrder}>
+      <button onClick={toggleSortOrder}>
         {sortOrder === "asc" ? "Sort Descending" : "Sort Ascending"}
-      </button> */}
-
-      <button onClick={toggleSortTime}>
-        {sortTime === "asc"
-          ? "Sort TimeWise Descending"
-          : "SortTimeWise Ascending"}
       </button>
 
       <select name="" id="categorySelect" onChange={handleClick}>
@@ -67,7 +41,7 @@ export default function Task({
         <option value="Home Chores">Home Chores</option>
       </select>
       <ul>
-        {sortedTimes.map((todos, i) => {
+        {sortedToDos.map((todos, i) => {
           return (
             <>
               <Todo
