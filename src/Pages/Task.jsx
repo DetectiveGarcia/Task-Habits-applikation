@@ -53,6 +53,7 @@ export default function Task({
                 onEditDesc={(newDesc) => handleEditDesc(i, newDesc)}
                 onEditHours={(newHours) => handleEditHours(i, newHours)}
                 onEditMin={(newMin) => handleEditMin(i, newMin)}
+
               />
             </>
           );

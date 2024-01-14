@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-export default function NewTask({addTask}) {
+export default function NewTask({ addTask }) {
   const [boo, setBoo] = useState(false);
   const [newTask, setNewTask] = useState({
     title: "",
@@ -50,6 +50,7 @@ export default function NewTask({addTask}) {
 
   const handleAddTask = () => {
     addTask(newTask);
+    console.log(newTask.type);
   }
   return (
     <div>
@@ -86,20 +87,28 @@ export default function NewTask({addTask}) {
             value={newTask.time_hours}
             onChange={handleInputChange}
           />
-           <input
+          <input
             type="text"
             name="time_minutes"
             value={newTask.time_minutes}
             onChange={handleInputChange}
           />
         </label>
+
+        <p>Kategori:</p>
+        <select name="type" id={newTask.type} onChange={handleInputChange}>
+          <option value="">Choose category here</option>
+          <option value="Activity with friends">Activity with friends</option>
+          <option value="Home Chores">Home Chores</option>
+          <option value="Work relations">Work relations</option>
+        </select>
         <br />
         <br />
         <button type="button" onClick={handleSuggestedActivities}>
           Get suggested Activities
         </button>
         <br />
-        <button  type="submit" onClick={handleAddTask}>Add Task</button>
+        <button type="submit" onClick={handleAddTask}>Add Task</button>
       </form>
     </div>
   );
