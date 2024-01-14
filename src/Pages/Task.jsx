@@ -2,15 +2,38 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Todo from "../Components/Todo";
 
+export default function Task({
+  filteredToDos,
+  handleChecked,
+  handleDelete,
+  handleEdit,
+  handleEditDesc,
+  handleEditHours,
+  handleEditMin,
+  complete,
+  handleClick,
+}) {
+  const [sortOrder, setSortOrder] = useState("asc");
 
-export default function Task({filteredToDos, handleChecked, handleDelete,handleEdit, handleEditDesc, handleEditHours, handleEditMin,complete, handleClick}) {
+  const toggleSortOrder = () => {
+    setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
+  };
 
+  const sortedToDos = [...filteredToDos].sort((a, b) => {
+    const compareResult = a.title.localeCompare(b.title);
+    return sortOrder === "asc" ? compareResult : -compareResult;
+  });
 
   return (
     <div>
       <h1>Ärendet som skall utföras</h1>
       <Link to="/newtask"> Add Tasks</Link>
       <p>Filtrera by kategori: </p>
+
+      <button onClick={toggleSortOrder}>
+        {sortOrder === "asc" ? "Sort Descending" : "Sort Ascending"}
+      </button>
+
       <select name="" id="categorySelect" onChange={handleClick}>
         <option value="All">All</option>
         <option value="Work relations">Work relations</option>
@@ -18,13 +41,12 @@ export default function Task({filteredToDos, handleChecked, handleDelete,handleE
         <option value="Home Chores">Home Chores</option>
       </select>
       <ul>
-        {filteredToDos.map((todos, i) => {
+        {sortedToDos.map((todos, i) => {
           return (
             <>
               <Todo
                 key={i}
                 checked={() => handleChecked(i)}
-                // onComplete={() => handleComplete(i)}
                 todos={todos}
                 onDelete={() => handleDelete(i)}
                 onEdit={(newTitle) => handleEdit(i, newTitle)}
@@ -37,6 +59,7 @@ export default function Task({filteredToDos, handleChecked, handleDelete,handleE
           );
         })}
       </ul>
+
       <hr />
 
       <h2>Utförda ärender</h2>

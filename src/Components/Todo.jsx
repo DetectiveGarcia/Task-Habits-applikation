@@ -9,15 +9,6 @@ export default function Todo(props) {
   const [editedHours, setEditedHours] = useState(props.todos.time_hours)
   const [editedMin, setEditedMin] = useState(props.todos.time_minutes)
 
-  // const handleEdit =()=> {
-  //     setEditMode(false);
-  //     props.onEdit(editedTitle);
-
-  // }
-  // const handleEditDesc = () => {
-  //   setEditMode(false);
-  //   props.onEditDesc(editedDesc)
-  // }
 
   const editHandles = () => {
     setEditMode(false);
@@ -58,13 +49,15 @@ export default function Todo(props) {
       <>
         <p>{props.todos.title}</p>
         <p>{props.todos.description}</p>
-        <p>Timme(ar):{props.todos.time_hours}</p>
-        <p>Minuter: {props.todos.time_minutes}</p>
-        <p>Kategori: {props.todos.type}</p>
+        {/* <p>Timme(ar):{props.todos.time_hours}</p> */}
+        {/* <p>Minuter: {props.todos.time_minutes}</p> */}
+        <p>{props.todos.time}</p>
+        <p>{props.todos.type}</p>
         <button onClick={props.onDelete}>Delete</button>
         <label value="Done">Klart!</label>
         <input type="checkbox" onChange={props.checked} />
         <button onClick={() => setEditMode(true)}>Edit</button>
+        <p>Kategori: {props.todos.type}</p>
       </>
     )}
   </div>
