@@ -1,4 +1,4 @@
-import logo from "./logo.svg";
+
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./Pages/Home";
@@ -37,6 +37,9 @@ function App() {
       completed: false,
     },
   ]);
+
+  let [filteredToDos, setfilteredToDos] = useState(toDo)
+
   const handleChecked = (index) => {
     // Create a copy of the toDo array
     const updatedToDo = [...toDo];
@@ -49,25 +52,25 @@ function App() {
   const handleDelete = (index) => {
     const updatedToDo = [...toDo];
     updatedToDo.splice(index, 1);
-    setToDo(updatedToDo);
+    setfilteredToDos(updatedToDo);
   };
 
   const handleEdit = (index, newTitle) => {
     const updatedToDo = [...toDo];
     updatedToDo[index].title = newTitle;
-    setToDo(updatedToDo);
+    setfilteredToDos(updatedToDo);
   };
 
   const handleEditDesc = (index, newDesc) => {
     const updatedToDo = [...toDo];
     updatedToDo[index].description = newDesc;
-    setToDo(updatedToDo);
+    setfilteredToDos(updatedToDo);
   };
 
   const handleEditHours = (index, newHours) => {
     const updatedToDo = [...toDo];
     updatedToDo[index].time_hours = newHours;
-    setToDo(updatedToDo);
+    setfilteredToDos(updatedToDo);
   };
 
   const handleEditMin = (index, newMin) => {
@@ -75,18 +78,33 @@ function App() {
 
     console.log(updatedToDo[index], index, updatedToDo);
     updatedToDo[index].time_minutes = newMin;
-    setToDo(updatedToDo);
+    setfilteredToDos(updatedToDo);
   };
 
   const addTask = (tasks) => {
-    setToDo((prevTasks) => [...prevTasks, tasks]);
+    setfilteredToDos((prevTasks) => [...prevTasks, tasks]);
   };
+
+  function handleClick(e) {
+    let option = e.target.value
+    if(option === "All"){
+      return setfilteredToDos(toDo)
+    }else if(option === "Work relations"){
+      return setfilteredToDos(toDo.filter((todo) => todo.type === "Work relations"))
+    }else if(option === "Home Chores"){
+        return setfilteredToDos(toDo.filter((todo) => todo.type === "Home Chores"))
+    }else if(option === "Activity with friends"){
+        return setfilteredToDos(toDo.filter((todo) => todo.type === "Activity with friends"))
+    }
+  }
+
+
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/newtask" element={<NewTask {...{addTask}} />} />
-        <Route path="/tasks/" element={<Task {...{toDo, handleChecked, handleDelete,handleEdit, handleEditDesc, handleEditHours, handleEditMin,complete}}/>} />
+        <Route path="/tasks/" element={<Task {...{filteredToDos, handleChecked, handleDelete,handleEdit, handleEditDesc, handleEditHours, handleEditMin,complete, handleClick}}/>} />
         <Route path="/newhabits" element={<NewHabits />} />
         <Route path="/habits" element={<Habits />} />
         <Route path="/friends" element={<Friends />} />

@@ -60,7 +60,7 @@ export default function Todo(props) {
         <p>{props.todos.description}</p>
         <p>Timme(ar):{props.todos.time_hours}</p>
         <p>Minuter: {props.todos.time_minutes}</p>
-        <p>{props.todos.type}</p>
+        <p>Kategori: {props.todos.type}</p>
         <button onClick={props.onDelete}>Delete</button>
         <label value="Done">Klart!</label>
         <input type="checkbox" onChange={props.checked} />

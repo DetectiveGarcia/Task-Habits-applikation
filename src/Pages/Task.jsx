@@ -1,18 +1,24 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Todo from "../Components/Todo";
-import NewTask from "./NewTask";
-import { Routes, Route } from "react-router-dom";
 
-export default function Task({toDo, handleChecked, handleDelete,handleEdit, handleEditDesc, handleEditHours, handleEditMin,complete}) {
+
+export default function Task({filteredToDos, handleChecked, handleDelete,handleEdit, handleEditDesc, handleEditHours, handleEditMin,complete, handleClick}) {
+
 
   return (
     <div>
       <h1>Ärendet som skall utföras</h1>
       <Link to="/newtask"> Add Tasks</Link>
-
+      <p>Filtrera by kategori: </p>
+      <select name="" id="categorySelect" onChange={handleClick}>
+        <option value="All">All</option>
+        <option value="Work relations">Work relations</option>
+        <option value="Activity with friends">Activity with friends</option>
+        <option value="Home Chores">Home Chores</option>
+      </select>
       <ul>
-        {toDo.map((todos, i) => {
+        {filteredToDos.map((todos, i) => {
           return (
             <>
               <Todo
@@ -25,6 +31,7 @@ export default function Task({toDo, handleChecked, handleDelete,handleEdit, hand
                 onEditDesc={(newDesc) => handleEditDesc(i, newDesc)}
                 onEditHours={(newHours) => handleEditHours(i, newHours)}
                 onEditMin={(newMin) => handleEditMin(i, newMin)}
+
               />
             </>
           );
