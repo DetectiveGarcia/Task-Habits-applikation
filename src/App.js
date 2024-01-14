@@ -17,7 +17,7 @@ function App() {
       title: "La vida Loca",
       description: "Dont fuk with pable",
 
-      time:"10 timmar ",
+      time: "10 timmar ",
       type: "Activity with friends",
       completed: false,
     },
@@ -25,7 +25,7 @@ function App() {
       title: "Cleaning chores",
       description: "Wash dishes",
 
-      time:"15 minuter" ,
+      time: "15 minuter",
       type: "Home Chores",
       completed: false,
     },
@@ -105,12 +105,171 @@ function App() {
     }
   }
 
+  ///Habits
+
+  let habits = [
+    {
+      title: "Vakna kl. 06:00",
+      streak: 0,
+      prio: 3,
+    },
+    {
+      title: "Träna på morgonen",
+      streak: 2,
+      prio: 2,
+    },
+    {
+      title: "Meditera",
+      streak: 5,
+      prio: 1,
+    },
+    {
+      title: "Äta grönsaker (en gång per dag)",
+      streak: 15,
+      prio: 1,
+    },
+    {
+      title: "Gå o simma(en gång per vecka)",
+      streak: 1,
+      prio: 1,
+    },
+    {
+      title: "Träna boxning(en gång per vecka)",
+      streak: 0,
+      prio: 1,
+    },
+    {
+      title: "Spara pengar (en gång i månaden)",
+      streak: 4,
+      prio: 3,
+    },
+    {
+      title: "Koda varje dag",
+      streak: 4,
+      prio: 3,
+    },
+    {
+      title: "Ringa mormor minst en gång per vecka",
+      streak: 0,
+      prio: 1,
+    },
+  ];
+
+  let [habitsState, setHabitsState] = useState(habits)
+  let [filterTextValue, setFilterTextValue] = useState("All")
+
+  let filteredHabitList = habitsState.filter((habit) => {
+    if (filterTextValue === "All") {
+      return true
+    } else if (filterTextValue === "1") {
+      return habit.prio === 1
+    } else if (filterTextValue === "2") {
+      return habit.prio === 2
+    } else if (filterTextValue === "3") {
+      return habit.prio === 3
+    }
+  })
+
+  function onFilterValueSelected(filterValue) {
+    setFilterTextValue(filterValue);
+  }
+
+  let streakInc = (habitToUpdate) => {
+    setHabitsState((prevHabit) => {
+      return prevHabit.map((habit) =>
+        habit === habitToUpdate ? { ...habit, streak: habit.streak + 1 } : habit
+      );
+    });
+  };
+
+  let streakDec = (habitToUpdate) => {
+    setHabitsState((prevHabit) => {
+      return prevHabit.map((habit) =>
+        habit === habitToUpdate
+          ? { ...habit, streak: Math.max(0, habit.streak - 1) }
+          : habit
+      );
+    });
+  };
+
+
+  let streakReset = (habitToUpdate) => {
+    setHabitsState((prevHabit) => {
+      return prevHabit.map((habit) =>
+        habit === habitToUpdate
+          ? { ...habit, streak: 0 }
+          : habit
+      );
+    });
+  };
+
+
+  let addHabit = () => {
+
+    let updatedHabits = [...habitsState];
+    let titleInput = document.querySelector('#title');
+    let streakInput = document.querySelector('#streak');
+    let prioInput = document.querySelector('#prio');
+
+
+    let titleValue = titleInput.value;
+    let streakValue = streakInput.value;
+    let prioValue = prioInput.value;
+
+    let newHabit = {
+      title: titleValue,
+      streak: Number(streakValue),
+      prio: prioValue,
+    };
+
+    titleInput.value = '';
+    streakInput.value = '';
+    prioInput.value = '';
+
+
+
+    setHabitsState([newHabit, ...updatedHabits]);
+    alert(`New habit: ${titleValue}, added`);
+
+  }
+
+  function handleClick(e) {
+    let button = e.target.innerText;
+    if (button === "All") {
+      setHabitsState(habitsState);
+    } else if (button === "Prio AscSort") {
+      let sortedHabits = [...habitsState];
+      sortedHabits.sort((a, b) => {
+        return a.prio - b.prio;
+      });
+      setHabitsState(sortedHabits);
+    } else if (button === "Prio DecSort") {
+      let sortedHabits = [...habitsState];
+      sortedHabits.sort((a, b) => {
+        return b.prio - a.prio;
+      });
+      setHabitsState(sortedHabits);
+    } else if (button === "Streak AscSort") {
+      let sortedHabits = [...habitsState];
+      sortedHabits.sort((a, b) => {
+        return a.streak - b.streak;
+      });
+      setHabitsState(sortedHabits);
+    } else if (button === "Streak DecSort") {
+      let sortedHabits = [...habitsState];
+      sortedHabits.sort((a, b) => {
+        return b.streak - a.streak;
+      });
+      setHabitsState(sortedHabits);
+    }
+  }
+
   return (
     <>
       <div className="App">
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home/>} />
+          <Route path="/" element={<Home />} />
           <Route path="/newtask" element={<NewTask {...{ addTask }} />} />
           <Route
             path="/tasks/"
@@ -130,8 +289,14 @@ function App() {
               />
             }
           />
-          <Route path="/newhabits" element={<NewHabits />} />
-          <Route path="/habits" element={<Habits />} />
+          <Route path="/newhabits" element={<NewHabits {...{addHabit}} />} />
+          <Route path="/habits" element={<Habits {...{
+            filteredHabitList, onFilterValueSelected,
+            streakInc,
+            streakDec,
+            handleClick,
+            streakReset
+          }} />} />
           <Route path="/friends" element={<Friends />} />
         </Routes>
         <Footer />
